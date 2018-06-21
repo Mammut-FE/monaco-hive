@@ -1,0 +1,30 @@
+{
+  "name": "monaco-hive",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0",
+    "monaco-editor-core": "0.12.0",
+    "monaco-languages": "1.0.0",
+    "monaco-plugin-helpers": "^1.0.2",
+    "requirejs": "^2.3.5",
+    "typescript": "2.7.2",
+    "uglify-js": "^3.3.14",
+    "vscode-languageserver-types": "3.6.1",
+    "vscode-nls": "^3.2.2",
+    "vscode-uri": "^1.0.5"
+  },
+  "scripts": {
+    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "watch": "tsc -p ./src --watch",
+    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "install-service-next": "npm install vscode-css-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
+    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

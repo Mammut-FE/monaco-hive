@@ -1,0 +1,10 @@
+/.vscode/
+/out/
+/scripts/
+/src/
+/test/
+/.gitignore
+/.npmignore
+/package-lock.json
+/webpack.dev.config.js
+/webpack.min.config.js
