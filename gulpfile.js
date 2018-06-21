@@ -12,9 +12,18 @@ gulp.task('default', function () {
             baseDir: '.',
             index: 'test/index.html'
         },
-        https: true
+        https: true,
+        middleware: function (req, res, next) {
+            if (req.url.endsWith('monaco-editor-core/release/dev/hiveWorker.js')) {
+                res.writeHead(302, {
+                    'Location': '/release/dev/hiveWorker.js'
+                });
+                res.end();
+            }
+            next();
+        }
     });
     
     gulp.watch(['out/**'], ['release']);
-    gulp.watch(['release/dev/**'],  browserSync.reload)
+    gulp.watch(['release/dev/**'], browserSync.reload);
 });
