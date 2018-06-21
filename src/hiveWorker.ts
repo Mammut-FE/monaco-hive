@@ -22,7 +22,7 @@ export class HiveWorker {
     }
 
 
-    doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
+    public doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
         let document = this._getTextDocument(uri);
         let completions = this._languageService.doComplete(document, position);
         return Promise.as(completions);
@@ -36,6 +36,12 @@ export class HiveWorker {
             }
         }
         return null;
+    }
+
+    public doValidation(uri: string): Promise<ls.Diagnostic[]> {
+        let document = this._getTextDocument(uri);
+
+        return Promise.as([]);
     }
 }
 
