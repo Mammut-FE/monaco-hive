@@ -1,7 +1,0 @@
-/*!-----------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * monaco-hive version: 0.0.1(undefined)
- * Released under the MIT license
- * https://github.com/Mammut-FE/monaco-hive/blob/master/LICENSE.md
- *-----------------------------------------------------------------------------*/
-define("vs/language/hive/monaco.contribution",["require","exports"],function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=monaco.Emitter,n=function(){function e(e,n){this._onDidChange=new i,this._languageId=e,this.setDiagnosticsOptions(n)}return Object.defineProperty(e.prototype,"onDidChange",{get:function(){return this._onDidChange.event},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"diagnosticsOptions",{get:function(){return this._diagnosticsOptions},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"languageId",{get:function(){return this._languageId},enumerable:!0,configurable:!0}),e.prototype.setDiagnosticsOptions=function(e){this._diagnosticsOptions=e||Object.create(null),this._onDidChange.fire(this)},e}(),o=new(e.LanguageServiceDefaultsImpl=n)("hive",{validate:!0,lint:{}});monaco.languages.hive={hiveDefaults:o},monaco.languages.onLanguage("hive",function(){monaco.Promise.wrap(new Promise(function(e,n){t(["./hiveMode"],e,n)})).then(function(e){return e.setupMode(o)})})});
