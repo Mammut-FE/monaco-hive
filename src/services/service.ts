@@ -1,13 +1,7 @@
 export class HiveService {
-    constructor() {
+    constructor() {}
     
-    }
+    public doComplete() {}
     
-    public doComplete() {
-    
-    }
-    
-    public doValite() {
-    
-    }
+    public doValite() {}
 }

@@ -24,7 +24,8 @@
     "release": "node ./scripts/bundle-dev && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "install-service-next": "npm install vscode-css-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
-    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
+    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D",
+    "lint": "prettier --write src/**/*.ts"
   },
   "config": {
     "commitizen": {

@@ -1,6 +1,4 @@
-export interface LanguageSettings {
-
-}
+export interface LanguageSettings {}
 
 import { HiveService } from './service';
 
