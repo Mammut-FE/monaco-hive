@@ -1,12 +1,15 @@
-export function getLanguageService() {
-    return {
-        doComplete: () => {
-        }
-    };
-}
-
 export interface LanguageSettings {
 
 }
 
-export { HiveService } from './service';
+import { HiveService } from './service';
+
+let languageServices = null;
+
+export function getLanguageService() {
+    if (!languageServices) {
+        languageServices = new HiveService();
+    }
+    
+    return languageServices;
+}
