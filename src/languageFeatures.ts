@@ -12,19 +12,19 @@ export interface WorkerAccessor {
 }
 
 /**
- * 语法检查其
+ * 语法检查
  */
 export class DiagnosticsAdapter {
     private _disposables: IDisposable[] = [];
     private _listener: { [uri: string]: IDisposable } = Object.create(null);
-
+    
     constructor(private _languageId: string, private _worker: WorkerAccessor, defaults: LanguageServiceDefaultsImpl) {
         const onModelAdd = (model: monaco.editor.IModel): void => {
             let modeId = model.getModeId();
             if (modeId !== this._languageId) {
                 return;
             }
-
+            
             let handle: number;
             this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
                 clearTimeout(handle);
@@ -32,10 +32,10 @@ export class DiagnosticsAdapter {
             });
             this._doValidate(model.uri, modeId);
         };
-
+        
         const onModelRemoved = (model: monaco.editor.IModel): void => {
             monaco.editor.setModelMarkers(model, this._languageId, []);
-
+            
             let uriStr = model.uri.toString();
             let listener = this._listener[uriStr];
             if (listener) {
@@ -43,14 +43,14 @@ export class DiagnosticsAdapter {
                 delete this._listener[uriStr];
             }
         };
-
+        
         this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
         this._disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
         this._disposables.push(monaco.editor.onDidChangeModelLanguage(event => {
             onModelRemoved(event.model);
             onModelAdd(event.model);
         }));
-
+        
         defaults.onDidChange(_ => {
             monaco.editor.getModels().forEach(model => {
                 if (model.getModeId() === this._languageId) {
@@ -59,7 +59,7 @@ export class DiagnosticsAdapter {
                 }
             });
         });
-
+        
         this._disposables.push({
             dispose: () => {
                 for (let key in this._listener) {
@@ -67,15 +67,15 @@ export class DiagnosticsAdapter {
                 }
             }
         });
-
+        
         monaco.editor.getModels().forEach(onModelAdd);
     }
-
+    
     public dispose(): void {
         this._disposables.forEach(d => d && d.dispose());
         this._disposables = [];
     }
-
+    
     private _doValidate(resource: monaco.Uri, languageId: string) {
         this._worker(resource)
         .then(worker => {
@@ -111,7 +111,7 @@ function toSeverity(lsSeverity: number): monaco.MarkerSeverity {
 
 function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarkerData {
     let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
-
+    
     return {
         severity: toSeverity(diag.severity),
         startLineNumber: diag.range.start.line + 1,
@@ -126,9 +126,9 @@ function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarke
 
 export class CompletionAdapter implements monaco.languages.CompletionItemProvider {
     constructor(_ctx) {
-
+    
     }
-
+    
     provideCompletionItems(document: monaco.editor.ITextModel, position: monaco.Position, token: monaco.CancellationToken, context: monaco.languages.CompletionContext): monaco.languages.CompletionItem[] | monaco.Thenable<monaco.languages.CompletionItem[]> | monaco.languages.CompletionList | monaco.Thenable<monaco.languages.CompletionList> {
         return undefined;
     }

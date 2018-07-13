@@ -3,7 +3,7 @@ const browserSync = require('browser-sync').create();
 const run = require('gulp-run');
 
 gulp.task('release', function () {
-    return run('npm run release').exec();
+    return run('npm run release', {}).exec();
 });
 
 gulp.task('default', function () {
