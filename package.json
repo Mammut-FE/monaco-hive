@@ -30,5 +30,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "antlr4-hive-javascript": "^0.1.0"
   }
 }
