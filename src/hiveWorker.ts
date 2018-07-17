@@ -1,7 +1,7 @@
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
+import * as hiveService from 'vscode-hive-languageservice';
 import * as ls from 'vscode-languageserver-types';
-import * as hiveService from './services/index';
 
 export interface ICreateData {
     languageSettings: hiveService.LanguageSettings;
@@ -18,7 +18,8 @@ export class HiveWorker {
         this._ctx = ctx;
         this._languageSettings = createData.languageSettings;
         this._languageId = createData.languageId;
-        this._languageService = hiveService.getLanguageService();
+        // this._languageService = hiveService.getLanguageService();
+        console.log(hiveService);
     }
     
     

@@ -1,7 +1,5 @@
 const requirejs = require('requirejs');
 const path = require('path');
-const fs = require('fs');
-const UglifyJS = require('uglify-js');
 const helpers = require('monaco-plugin-helpers');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -12,7 +10,7 @@ const headerVersion = semver + '(' + sha1 + ')';
 
 const BUNDLED_FILE_HEADER = [
     '/*!-----------------------------------------------------------------------------',
-    ' * Copyright (c) Microsoft Corporation. All rights reserved.',
+    ' * Copyright (c) Netease Corporation. All rights reserved.',
     ' * monaco-hive version: ' + headerVersion,
     ' * Released under the MIT license',
     ' * https://github.com/Mammut-FE/monaco-hive/blob/master/LICENSE.md',
@@ -37,7 +35,7 @@ function bundleOne (moduleId, exclude) {
         packages: [
             {
                 name: 'vscode-hive-languageservice',
-                location: path.join(REPO_ROOT, 'services/index'),
+                location: path.join(REPO_ROOT, 'node_modules/vscode-hive-languageservice/lib/umd'),
                 main: 'hiveLanguageService'
             }, {
                 name: 'vscode-languageserver-types',

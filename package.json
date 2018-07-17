@@ -3,6 +3,19 @@
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "module": "",
+  "scripts": {
+    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "lint": "prettier --write src/**/*.ts",
+    "watch": "tsc -p ./src --watch",
+    "release": "node ./scripts/bundle-dev && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "install-service-next": "npm install vscode-hive-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
+    "install-service-local": "yarn add ../vscode-hive-languageservice -f -D"
+  },
+  "dependencies": {
+    "vscode-hive-languageservice": "../vscode-hive-languageservice"
+  },
   "devDependencies": {
     "browser-sync": "^2.24.4",
     "cz-conventional-changelog": "^2.1.0",
@@ -18,21 +31,9 @@
     "vscode-nls": "^3.2.2",
     "vscode-uri": "^1.0.5"
   },
-  "scripts": {
-    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
-    "watch": "tsc -p ./src --watch",
-    "release": "node ./scripts/bundle-dev && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "install-service-next": "npm install vscode-css-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
-    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D",
-    "lint": "prettier --write src/**/*.ts"
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "antlr4-hive-javascript": "^0.1.0"
   }
 }
