@@ -32,9 +32,10 @@ export class HiveWorker {
   }
   
   public doValidation(uri: string): Promise<ls.Diagnostic[]> {
-    let document = this._getTextDocument(uri);
-    
-    return Promise.as([]);
+    const document = this._getTextDocument(uri);
+    const text = document.getText();
+  
+    return this._languageService.doValidation(text);
   }
   
   private _getTextDocument(uri: string): ls.TextDocument {
