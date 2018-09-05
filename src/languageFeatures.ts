@@ -7,8 +7,11 @@
 import * as ls from 'vscode-languageserver-types';
 import { HiveWorker } from './hiveWorker';
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
+import Position = monaco.Position;
 import Promise = monaco.Promise;
+import Thenable = monaco.Thenable;
 import Uri = monaco.Uri;
 
 export interface WorkerAccessor {
@@ -129,11 +132,41 @@ function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarke
 }
 
 export class CompletionAdapter implements monaco.languages.CompletionItemProvider {
-  constructor(_ctx) {
+    constructor(private  _worker: WorkerAccessor) {
   
   }
-  
-  provideCompletionItems(document: monaco.editor.ITextModel, position: monaco.Position, token: monaco.CancellationToken, context: monaco.languages.CompletionContext): monaco.languages.CompletionItem[] | monaco.Thenable<monaco.languages.CompletionItem[]> | monaco.languages.CompletionList | monaco.Thenable<monaco.languages.CompletionList> {
-    return undefined;
-  }
+
+    public get triggerCharacters(): string[] {
+        return [' ', '.'];
+    }
+
+    provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position, token: monaco.CancellationToken, context: monaco.languages.CompletionContext): Thenable<monaco.languages.CompletionList> {
+        const wordInfo = model.getWordUntilPosition(position);
+        const resource = model.uri;
+
+        return wireCancellationToken(token, this._worker(resource).then(worker => {
+            return worker.doComplete(resource.toString(), fromPosition(position));
+        })).then(info => {
+            return info;
+        });
+    }
+}
+
+function fromPosition(position: Position): ls.Position {
+    if (!position) {
+        return void 0;
+    }
+
+    return {
+        character: position.column - 1,
+        line: position.lineNumber - 1
+    };
+}
+
+/**
+ * Hook a cancellation token to a WinJS Promise
+ */
+function wireCancellationToken<T>(token: CancellationToken, promise: Promise<T>): Thenable<T> {
+    token.onCancellationRequested(() => promise.cancel());
+    return promise;
 }

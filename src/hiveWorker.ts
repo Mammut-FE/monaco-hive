@@ -24,8 +24,8 @@ export class HiveWorker {
     this._languageId = createData.languageId;
     this._languageService = hiveService.getLanguageService();
   }
-  
-  public doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
+
+    public doComplete(uri: string, position: ls.Position): Promise<monaco.languages.CompletionList> {
     let document = this._getTextDocument(uri);
     let completions = this._languageService.doComplete(document, position);
     return Promise.as(completions);
