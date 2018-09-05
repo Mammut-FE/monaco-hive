@@ -20,10 +20,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 
     let languageId = defaults.languageId;
 
-    monaco.languages.registerCompletionItemProvider(
-        languageId,
-        new languageFeatures.CompletionAdapter(worker)
-    );
+    monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker));
 
     // new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults);
 }

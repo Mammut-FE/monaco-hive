@@ -3,16 +3,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 declare namespace monaco.languages.hive {
-  export interface DiagnosticsOptions {
-    readonly validate?: boolean;
-    readonly lint?: {};
-  }
+    export interface DiagnosticsOptions {
+        readonly validate?: boolean;
+        readonly lint?: {};
+    }
 
-  export interface LanguageServiceDefaults {
-    readonly onDidChange: IEvent<LanguageServiceDefaults>;
-    readonly diagnosticsOptions: DiagnosticsOptions;
-    setDiagnosticsOptions(options: DiagnosticsOptions): void;
-  }
+    export interface LanguageServiceDefaults {
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly diagnosticsOptions: DiagnosticsOptions;
 
-  export var hiveDefaults: LanguageServiceDefaults;
+        setDiagnosticsOptions(options: DiagnosticsOptions): void;
+    }
+
+    export var hiveDefaults: LanguageServiceDefaults;
 }
