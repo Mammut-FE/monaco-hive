@@ -133,6 +133,59 @@ function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarke
     };
 }
 
+// FIXME: update vscode-hive-language `monaco-editor-core` version
+function toRange(range: any): monaco.Range {
+    if (!range) {
+        return void 0;
+    }
+
+    return new monaco.Range(range.start.line + 1, range.start.character + 1, range.end.line + 1, range.end.character + 1);
+}
+
+function toCompletionItemKind(kind: monaco.languages.CompletionItemKind): monaco.languages.CompletionItemKind {
+    let mItemKind = monaco.languages.CompletionItemKind;
+
+    switch (kind) {
+        case ls.CompletionItemKind.Text:
+            return mItemKind.Text;
+        case ls.CompletionItemKind.Method:
+            return mItemKind.Method;
+        case ls.CompletionItemKind.Function:
+            return mItemKind.Function;
+        case ls.CompletionItemKind.Constructor:
+            return mItemKind.Constructor;
+        case ls.CompletionItemKind.Field:
+            return mItemKind.Field;
+        case ls.CompletionItemKind.Variable:
+            return mItemKind.Variable;
+        case ls.CompletionItemKind.Class:
+            return mItemKind.Class;
+        case ls.CompletionItemKind.Interface:
+            return mItemKind.Interface;
+        case ls.CompletionItemKind.Module:
+            return mItemKind.Module;
+        case ls.CompletionItemKind.Property:
+            return mItemKind.Property;
+        case ls.CompletionItemKind.Unit:
+            return mItemKind.Unit;
+        case ls.CompletionItemKind.Value:
+            return mItemKind.Value;
+        case ls.CompletionItemKind.Enum:
+            return mItemKind.Enum;
+        case ls.CompletionItemKind.Keyword:
+            return mItemKind.Keyword;
+        case ls.CompletionItemKind.Snippet:
+            return mItemKind.Snippet;
+        case ls.CompletionItemKind.Color:
+            return mItemKind.Color;
+        case ls.CompletionItemKind.File:
+            return mItemKind.File;
+        case ls.CompletionItemKind.Reference:
+            return mItemKind.Reference;
+    }
+    return mItemKind.Property;
+}
+
 export class CompletionAdapter implements monaco.languages.CompletionItemProvider {
     constructor(private _worker: WorkerAccessor) {
     }
@@ -146,17 +199,53 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
         position: monaco.Position,
         token: monaco.CancellationToken,
         context: monaco.languages.CompletionContext
-    ): Thenable<monaco.languages.CompletionList> {
-        const wordInfo = model.getWordUntilPosition(position);
+    ): Thenable<monaco.languages.CompletionList> | monaco.languages.CompletionList {
         const resource = model.uri;
+        const offset = model.getOffsetAt(position);
 
         return wireCancellationToken(
             token,
             this._worker(resource).then(worker => {
-                return worker.doComplete(resource.toString(), fromPosition(position));
+                return worker.doComplete(resource.toString(), fromPosition(position), offset);
             })
         ).then(info => {
-            return info;
+            if (!info) {
+                return;
+            }
+
+            let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
+                let item: monaco.languages.CompletionItem = {
+                    label: entry.label,
+                    insertText: entry.insertText,
+                    sortText: entry.sortText,
+                    filterText: entry.filterText,
+                    documentation: entry.documentation,
+                    detail: entry.detail,
+                    kind: toCompletionItemKind(entry.kind)
+                };
+
+                if (entry.textEdit) {
+                    item.range = toRange(entry.textEdit.range);
+                    item.insertText = entry.textEdit.text;
+                }
+
+                // if (entry.additionalTextEdits) {
+                //     item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit)
+                // }
+
+                // if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
+                //     item.insertText = { value: <string>item.insertText };
+                // }
+
+                return item;
+            });
+
+            console.log(items);
+
+            return {
+                isIncomplete: info.isIncomplete,
+                items: items
+            };
         });
     }
 }

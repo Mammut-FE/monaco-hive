@@ -14,7 +14,7 @@ export interface ICreateData {
 
 export class HiveWorker {
     private _ctx: IWorkerContext;
-    private _languageService: any;
+    private _languageService: hiveService.LanguageService;
     private _languageSettings: any;
     private _languageId: string;
 
@@ -25,9 +25,22 @@ export class HiveWorker {
         this._languageService = hiveService.getLanguageService();
     }
 
-    public doComplete(uri: string, position: ls.Position): Promise<monaco.languages.CompletionList> {
+    public doComplete(uri: string, position: ls.Position, offset: number): Promise<monaco.languages.CompletionList> {
         let document = this._getTextDocument(uri);
-        let completions = this._languageService.doComplete(document, position);
+        let text = document.getText();
+
+
+        let wordAtOffset = text[offset - 1];
+
+        if (wordAtOffset === '.' || wordAtOffset === ',') {
+            text = text.substr(0, offset) + 'PLACEHOLDER' + text.substr(offset);
+        }
+
+        let program = this._languageService.parseProgram(text);
+
+
+        let completions = this._languageService.doComplete(document, position, program);
+
         return Promise.as(completions);
     }
 
