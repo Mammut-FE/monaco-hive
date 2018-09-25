@@ -1,7 +1,6 @@
 {
   "name": "monaco-hive",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.1.0",
   "license": "MIT",
   "module": "",
   "scripts": {
