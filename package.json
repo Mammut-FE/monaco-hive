@@ -2,15 +2,14 @@
   "name": "monaco-hive",
   "version": "0.1.0",
   "license": "MIT",
-  "module": "",
   "scripts": {
     "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
-    "lint": "prettier --write src/**/*.ts",
-    "watch": "tsc -p ./src --watch",
-    "release": "node ./scripts/bundle-dev && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "install-service-local": "yarn add ../vscode-hive-languageservice -f -D",
     "install-service-next": "yarn remove vscode-hive-languageservice -f -D && yarn add vscode-hive-languageservice@next -f -D",
-    "install-service-local": "yarn add ../vscode-hive-languageservice -f -D"
+    "lint": "prettier --write src/**/*.ts",
+    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "release": "node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "watch": "tsc -p ./src --watch"
   },
   "devDependencies": {
     "browser-sync": "^2.24.4",
