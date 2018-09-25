@@ -1,7 +1,5 @@
 const requirejs = require('requirejs');
 const path = require('path');
-const fs = require('fs');
-const UglifyJS = require('uglify-js');
 const helpers = require('monaco-plugin-helpers');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -53,19 +51,6 @@ function bundleOne (moduleId, exclude) {
                 main: 'vscode-nls'
             }
         ]
-    }, function (buildResponse) {
-        const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
-        const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
-        const fileContents = fs.readFileSync(devFilePath).toString();
-        console.log();
-        console.log(`Minifying ${devFilePath}...`);
-        const result = UglifyJS.minify(fileContents, {
-            output: {
-                comments: 'some'
-            }
-        });
-        console.log(`Done.`);
-        try { fs.mkdirSync(path.join(REPO_ROOT, 'release/min')); } catch (err) { }
-        fs.writeFileSync(minFilePath, BUNDLED_FILE_HEADER + result.code);
+    }, function () {
     });
 }

@@ -3,24 +3,31 @@
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
-  "devDependencies": {
-    "cz-conventional-changelog": "^2.1.0",
-    "monaco-editor-core": "0.12.0",
-    "monaco-languages": "1.0.0",
-    "monaco-plugin-helpers": "^1.0.2",
-    "requirejs": "^2.3.5",
-    "typescript": "2.7.2",
-    "uglify-js": "^3.3.14",
-    "vscode-languageserver-types": "3.6.1",
-    "vscode-nls": "^3.2.2",
-    "vscode-uri": "^1.0.5"
-  },
+  "module": "",
   "scripts": {
     "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "lint": "prettier --write src/**/*.ts",
     "watch": "tsc -p ./src --watch",
+    "release": "node ./scripts/bundle-dev && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "install-service-next": "npm install vscode-css-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
-    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
+    "install-service-next": "yarn remove vscode-hive-languageservice -f -D && yarn add vscode-hive-languageservice@next -f -D",
+    "install-service-local": "yarn add ../vscode-hive-languageservice -f -D"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.4",
+    "cz-conventional-changelog": "^2.1.0",
+    "gulp": "^3.9.1",
+    "gulp-run": "^1.7.1",
+    "monaco-editor-core": "0.14.1",
+    "monaco-languages": "1.4.0",
+    "monaco-plugin-helpers": "^1.0.2",
+    "requirejs": "^2.3.5",
+    "typescript": "^3.0.1",
+    "uglify-js": "^3.3.14",
+    "vscode-hive-languageservice": "^0.2.0",
+    "vscode-languageserver-types": "3.10.0",
+    "vscode-nls": "^3.2.2",
+    "vscode-uri": "^1.0.5"
   },
   "config": {
     "commitizen": {

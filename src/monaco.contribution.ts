@@ -1,16 +1,20 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Netease Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+import * as mode from './hiveMode';
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
-import * as mode from './hiveMode';
 
 export class LanguageServiceDefaultsImpl implements monaco.languages.hive.LanguageServiceDefaults {
     private readonly _languageId: string;
+
+    private _onDidChange = new Emitter<monaco.languages.hive.LanguageServiceDefaults>();
 
     constructor(languageId: string, diagnosticsOptions: monaco.languages.hive.DiagnosticsOptions) {
         this._languageId = languageId;
         this.setDiagnosticsOptions(diagnosticsOptions);
     }
-
-    private _onDidChange = new Emitter<monaco.languages.hive.LanguageServiceDefaults>();
 
     get onDidChange(): IEvent<monaco.languages.hive.LanguageServiceDefaults> {
         return this._onDidChange.event;
@@ -34,7 +38,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.hive.Langua
 
 const diagnosticDefault: monaco.languages.hive.DiagnosticsOptions = {
     validate: true,
-    lint: {}
+    lint: {},
+    databases: []
 };
 const hiveDefaults = new LanguageServiceDefaultsImpl('hive', diagnosticDefault);
 
