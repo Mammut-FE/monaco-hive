@@ -13,21 +13,19 @@
     "install-service-next": "npm install vscode-hive-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
     "install-service-local": "yarn add ../vscode-hive-languageservice -f -D"
   },
-  "dependencies": {
-    "vscode-hive-languageservice": "../vscode-hive-languageservice"
-  },
   "devDependencies": {
     "browser-sync": "^2.24.4",
     "cz-conventional-changelog": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-run": "^1.7.1",
-    "monaco-editor-core": "^0.12.0",
-    "monaco-languages": "^1.5.1",
+    "monaco-editor-core": "0.14.1",
+    "monaco-languages": "1.4.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.5",
     "typescript": "^3.0.1",
     "uglify-js": "^3.3.14",
-    "vscode-languageserver-types": "^3.7.2",
+    "vscode-hive-languageservice": "../vscode-hive-languageservice",
+    "vscode-languageserver-types": "3.10.0",
     "vscode-nls": "^3.2.2",
     "vscode-uri": "^1.0.5"
   },
