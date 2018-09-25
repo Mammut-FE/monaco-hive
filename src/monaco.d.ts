@@ -6,6 +6,7 @@ declare namespace monaco.languages.hive {
     export interface DiagnosticsOptions {
         readonly validate?: boolean;
         readonly lint?: {};
+        readonly databases?: IDatabase[];
     }
 
     export interface LanguageServiceDefaults {
@@ -16,4 +17,33 @@ declare namespace monaco.languages.hive {
     }
 
     export var hiveDefaults: LanguageServiceDefaults;
+
+    export interface IDatabaseServices {
+        getDatabaseList(): IDatabase[];
+
+        getTables(db: string): ITable[];
+
+        getColumns(db: string, table: string): IColumn[];
+    }
+
+    export interface IDatabase {
+        name: string;
+        tables: ITable[];
+
+        [key: string]: any;
+    }
+
+    export interface ITable {
+        name: string;
+        columns: IColumn[];
+
+        [key: string]: any;
+
+    }
+
+    export interface IColumn {
+        name: string;
+
+        [key: string]: any;
+    }
 }

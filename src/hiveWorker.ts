@@ -6,6 +6,7 @@ import * as hiveService from 'vscode-hive-languageservice';
 import * as ls from 'vscode-languageserver-types';
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
+import DiagnosticsOptions = monaco.languages.hive.DiagnosticsOptions;
 
 export interface ICreateData {
     languageSettings: hiveService.LanguageSettings;
@@ -15,7 +16,7 @@ export interface ICreateData {
 export class HiveWorker {
     private _ctx: IWorkerContext;
     private _languageService: hiveService.LanguageService;
-    private _languageSettings: any;
+    private _languageSettings: DiagnosticsOptions;
     private _languageId: string;
 
     constructor(ctx: IWorkerContext, createData: ICreateData) {
@@ -28,8 +29,6 @@ export class HiveWorker {
     public doComplete(uri: string, position: ls.Position, offset: number): Promise<monaco.languages.CompletionList> {
         let document = this._getTextDocument(uri);
         let text = document.getText();
-
-
         let wordAtOffset = text[offset - 1];
 
         if (wordAtOffset === '.' || wordAtOffset === ',') {
@@ -37,9 +36,7 @@ export class HiveWorker {
         }
 
         let program = this._languageService.parseProgram(text);
-
-
-        let completions = this._languageService.doComplete(document, position, program);
+        let completions = this._languageService.doComplete(document, position, program, this._languageSettings.databases);
 
         return Promise.as(completions);
     }

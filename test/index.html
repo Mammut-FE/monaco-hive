@@ -29,7 +29,7 @@
     require([
         'vs/basic-languages/monaco.contribution',
         'vs/language/hive/monaco.contribution'
-    ], function () {
+    ], function() {
         monaco.languages.register({
             id: 'hive',
             extensions: ['.hql', '.hplsql'],
@@ -38,6 +38,16 @@
 
         var editor = monaco.editor.create(document.getElementById('container'), {
             value: ``, language: 'hive'
+        });
+
+        setTimeout(() => {
+            monaco.languages.hive.hiveDefaults.setDiagnosticsOptions({
+                databases: [
+                    { name: 'db1', tables: [{ name: 'table1' }] }
+                ]
+            });
+
+            console.log('change db');
         });
     });
 </script>

@@ -38,7 +38,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.hive.Langua
 
 const diagnosticDefault: monaco.languages.hive.DiagnosticsOptions = {
     validate: true,
-    lint: {}
+    lint: {},
+    databases: []
 };
 const hiveDefaults = new LanguageServiceDefaultsImpl('hive', diagnosticDefault);
 
