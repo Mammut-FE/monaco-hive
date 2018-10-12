@@ -43,7 +43,7 @@
         setTimeout(() => {
             monaco.languages.hive.hiveDefaults.setDiagnosticsOptions({
                 databases: [
-                    { name: 'db1', tables: [{ name: 'table1' }] }
+                    { name: 'db1', tables: [{ name: 'table1', columns: [{ name: 'col1' }] }] }
                 ]
             });
 

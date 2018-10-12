@@ -1,11 +1,11 @@
 {
   "name": "monaco-hive",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "scripts": {
     "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
     "install-service-local": "yarn add ../vscode-hive-languageservice -f -D",
-    "install-service-next": "yarn remove vscode-hive-languageservice -f -D && yarn add vscode-hive-languageservice@next -f -D",
+    "install-service-next": "yarn add vscode-hive-languageservice -f -D",
     "lint": "prettier --write src/**/*.ts",
     "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "release": "node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
@@ -22,7 +22,7 @@
     "requirejs": "^2.3.5",
     "typescript": "^3.0.1",
     "uglify-js": "^3.3.14",
-    "vscode-hive-languageservice": "^0.2.0",
+    "vscode-hive-languageservice": "^0.3.0",
     "vscode-languageserver-types": "3.10.0",
     "vscode-nls": "^3.2.2",
     "vscode-uri": "^1.0.5"
