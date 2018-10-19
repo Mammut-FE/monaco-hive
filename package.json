@@ -1,6 +1,6 @@
 {
   "name": "monaco-hive",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "module": "",
   "scripts": {
@@ -23,7 +23,7 @@
     "requirejs": "^2.3.5",
     "typescript": "^3.0.1",
     "uglify-js": "^3.3.14",
-    "vscode-hive-languageservice": "^0.3.1",
+    "vscode-hive-languageservice": "^0.4.0",
     "vscode-languageserver-types": "3.10.0",
     "vscode-nls": "^3.2.2",
     "vscode-uri": "^1.0.5"
