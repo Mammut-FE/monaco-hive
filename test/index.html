@@ -43,7 +43,54 @@
         setTimeout(() => {
             monaco.languages.hive.hiveDefaults.setDiagnosticsOptions({
                 databases: [
-                    { name: 'db1', tables: [{ name: 'table1' }] }
+                    {
+                        name: 'school',
+                        tables: [
+                            {
+                                name: 'student',
+                                columns: [{
+                                    name: 'id'
+                                }, {
+                                    name: 'sex'
+                                }, {
+                                    name: 'age'
+                                }, {
+                                    name: 'name'
+                                }]
+                            },
+                            {
+                                name: 'course',
+                                columns: [{
+                                    name: 'id'
+                                }, {
+                                    name: 'name'
+                                }, {
+                                    name: 'hour'
+                                }, {
+                                    name: 'score'
+                                }]
+                            }
+                        ]
+                    },
+                    {
+                        name: 'library',
+                        tables: [
+                            {
+                                name: 'user',
+                                columns: [
+                                    { name: 'userid' },
+                                    { name: 'password' }
+                                ]
+                            },
+                            {
+                                name: 'book',
+                                columns: [
+                                    { name: 'bookid' },
+                                    { name: 'bookname' }
+                                ]
+                            }
+                        ]
+                    }
                 ]
             });
 
