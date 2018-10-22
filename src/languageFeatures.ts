@@ -142,8 +142,17 @@ function toRange(range: any): monaco.Range {
     return new monaco.Range(range.start.line + 1, range.start.character + 1, range.end.line + 1, range.end.character + 1);
 }
 
-function toCompletionItemKind(kind: monaco.languages.CompletionItemKind): monaco.languages.CompletionItemKind {
+function toCompletionItemKind(kind: monaco.languages.CompletionItemKind, detail: string): monaco.languages.CompletionItemKind {
     let mItemKind = monaco.languages.CompletionItemKind;
+
+    switch (detail) {
+        case 'database':
+            return mItemKind.Module;
+        case 'table':
+            return mItemKind.Class;
+        case 'column':
+            return mItemKind.Field;
+    }
 
     switch (kind) {
         case ls.CompletionItemKind.Text:
@@ -221,7 +230,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
                     filterText: entry.filterText,
                     documentation: entry.documentation,
                     detail: entry.detail,
-                    kind: toCompletionItemKind(entry.kind)
+                    kind: toCompletionItemKind(entry.kind, entry.detail)
                 };
 
                 if (entry.textEdit) {
