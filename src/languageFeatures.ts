@@ -249,8 +249,6 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
                 return item;
             });
 
-            console.log(items);
-
             return {
                 isIncomplete: info.isIncomplete,
                 items: items
