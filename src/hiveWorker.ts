@@ -4,9 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 import * as hiveService from 'vscode-hive-languageservice';
 import * as ls from 'vscode-languageserver-types';
+import CompletionItem = monaco.languages.CompletionItem;
+import CompletionList = monaco.languages.CompletionList;
+import DiagnosticsOptions = monaco.languages.hive.DiagnosticsOptions;
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
-import DiagnosticsOptions = monaco.languages.hive.DiagnosticsOptions;
 
 export interface ICreateData {
     languageSettings: hiveService.LanguageSettings;
@@ -26,10 +28,19 @@ export class HiveWorker {
         this._languageService = hiveService.getLanguageService();
     }
 
-    public doComplete(uri: string, position: ls.Position, offset: number): Promise<monaco.languages.CompletionList> {
+    public doComplete(uri: string, position: ls.Position, offset: number): Promise<CompletionList> {
         let document = this._getTextDocument(uri);
         let text = document.getText();
         let wordAtOffset = text[offset - 1];
+
+        if (wordAtOffset === '$' && this._languageSettings.azkabanCompletions) {
+            const completions = {
+                isIncomplete: false,
+                items: this._createAzkabanCompletions(this._languageSettings.azkabanCompletions)
+            };
+
+            return Promise.as(completions);
+        }
 
         if (wordAtOffset === '.' || wordAtOffset === ',') {
             text = text.substr(0, offset) + 'PLACEHOLDER' + text.substr(offset);
@@ -56,6 +67,18 @@ export class HiveWorker {
             }
         }
         return null;
+    }
+
+    private _createAzkabanCompletions(completions: string[]): CompletionItem[] {
+        return completions.map(label => {
+            return {
+                label,
+                insertText: label.substr(1),
+                kind: 5, // monaco.languages.CompletionItemKind.Variable
+                sortText: 'g',
+                detail: 'azkaban'
+            };
+        });
     }
 }
 

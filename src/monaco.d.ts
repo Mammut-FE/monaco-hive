@@ -7,6 +7,7 @@ declare namespace monaco.languages.hive {
         readonly validate?: boolean;
         readonly lint?: {};
         readonly databases?: IDatabase[];
+        readonly azkabanCompletions?: Array<string>;
     }
 
     export interface LanguageServiceDefaults {

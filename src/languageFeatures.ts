@@ -200,7 +200,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
     }
 
     public get triggerCharacters(): string[] {
-        return [' ', '.'];
+        return [' ', '.', '$'];
     }
 
     provideCompletionItems(
